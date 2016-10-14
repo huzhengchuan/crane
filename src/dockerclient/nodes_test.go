@@ -141,6 +141,8 @@ func TestUpdateNodeRole(t *testing.T) {
 		Method:  flagUpdateRole,
 		Options: []byte(`"worker"`),
 	}
+	optsJSONError := opts
+	optsJSONError.Options = []byte(`error json}`)
 
 	requestBody := node.Spec
 	requestBody.Role = "worker"
@@ -169,6 +171,9 @@ func TestUpdateNodeRole(t *testing.T) {
 
 	err = craneDockerClient.UpdateNode(node, opts)
 	assert.Nil(t, err)
+
+	err = craneDockerClient.UpdateNode(node, optsJSONError)
+	assert.NotNil(t, err)
 }
 
 func TestUpdateNodeAvailability(t *testing.T) {
@@ -201,6 +206,8 @@ func TestUpdateNodeAvailability(t *testing.T) {
 		Method:  flagUpdateAvailability,
 		Options: []byte(`"drain"`),
 	}
+	optsJSONError := opts
+	optsJSONError.Options = []byte(`error json}`)
 
 	requestBody := node.Spec
 	requestBody.Availability = "drain"
@@ -229,6 +236,8 @@ func TestUpdateNodeAvailability(t *testing.T) {
 
 	err = craneDockerClient.UpdateNode(node, opts)
 	assert.Nil(t, err)
+	err = craneDockerClient.UpdateNode(node, optsJSONError)
+	assert.NotNil(t, err)
 }
 
 func TestUpdateNodeLabelAdd(t *testing.T) {
@@ -267,6 +276,8 @@ func TestUpdateNodeLabelAdd(t *testing.T) {
 		}
 		`),
 	}
+	optsJSONError := opts
+	optsJSONError.Options = []byte(`error json}`)
 
 	requestBody := node.Spec
 	requestBody.Annotations.Labels = map[string]string{
@@ -297,6 +308,8 @@ func TestUpdateNodeLabelAdd(t *testing.T) {
 
 	err = craneDockerClient.UpdateNode(node, opts)
 	assert.Nil(t, err)
+	err = craneDockerClient.UpdateNode(node, optsJSONError)
+	assert.NotNil(t, err)
 }
 
 func TestUpdateNodeLabelRemove(t *testing.T) {
@@ -333,6 +346,8 @@ func TestUpdateNodeLabelRemove(t *testing.T) {
 		Method:  flagLabelRemove,
 		Options: []byte(`["keyToBeRemoved"]`),
 	}
+	optsJSONError := opts
+	optsJSONError.Options = []byte(`error json}`)
 
 	requestBody := node.Spec
 	requestBody.Annotations.Labels = map[string]string{}
@@ -361,6 +376,8 @@ func TestUpdateNodeLabelRemove(t *testing.T) {
 
 	err = craneDockerClient.UpdateNode(node, opts)
 	assert.Nil(t, err)
+	err = craneDockerClient.UpdateNode(node, optsJSONError)
+	assert.NotNil(t, err)
 }
 
 func TestUpdateNodeLabelUpdate(t *testing.T) {
@@ -397,6 +414,8 @@ func TestUpdateNodeLabelUpdate(t *testing.T) {
 		Method:  flagLabelUpdate,
 		Options: []byte(`{"keyToBeUpdated": "valueUpdated"}`),
 	}
+	optsJSONError := opts
+	optsJSONError.Options = []byte(`error json}`)
 
 	requestBody := node.Spec
 	requestBody.Annotations.Labels["keyToBeUpdated"] = "valueUpdated"
@@ -425,6 +444,8 @@ func TestUpdateNodeLabelUpdate(t *testing.T) {
 
 	err = craneDockerClient.UpdateNode(node, opts)
 	assert.Nil(t, err)
+	err = craneDockerClient.UpdateNode(node, optsJSONError)
+	assert.NotNil(t, err)
 }
 
 func TestUpdateNodeEndpointUpdate(t *testing.T) {
